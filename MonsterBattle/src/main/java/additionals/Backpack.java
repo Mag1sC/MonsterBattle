@@ -8,7 +8,7 @@ import java.util.List;
 public class Backpack {
 
     private final String title;
-    private final List<Item> store = new ArrayList<>();
+    private final List<Item> store;
     private final int limit;
 
     /**
@@ -21,6 +21,8 @@ public class Backpack {
     public Backpack(String title, int backpackLimit) {
         this.title = title;
         limit = backpackLimit;
+
+        store = new ArrayList<>(limit);
     }
 
     public List<Item> getStore() {
