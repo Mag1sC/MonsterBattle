@@ -46,4 +46,8 @@ public abstract sealed class Entity permits Player, Monster {
     protected int getHp() {
         return hp;
     }
+
+    protected void setHp(int hp) {
+        this.hp = hp;
+    }
 }

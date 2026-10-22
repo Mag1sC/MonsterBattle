@@ -41,10 +41,10 @@ public final class Monster extends Entity {
      * */
     @Override
     public int attack(Entity entity) {
-        if (!isAlive()) {
+        if (isAlive()) {
             throw new IllegalStateException("entity with flag isAlive, that equals false can not attack");
         }
-        if (!entity.isAlive()) {
+        if (entity.isAlive()) {
             throw new IllegalStateException("entity with flag isAlive, that equals false can not be attacked");
         }
 
