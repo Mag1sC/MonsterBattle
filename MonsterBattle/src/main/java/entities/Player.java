@@ -1,7 +1,7 @@
 package entities;
 
+import additionals.Backpack;
 import additionals.Experience;
-
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
@@ -18,6 +18,10 @@ public final class Player extends Entity {
     private final Experience experience;
     private int golds = 10;
 
+    /**
+     * Рюкзак игрового персонажа. Может хранить зелья и другие предметы
+     * */
+    private Backpack backpack = Backpack.getDefault();
 
     public Player(String name, Runnable levelUpAction) {
         super(20, 100, name);
