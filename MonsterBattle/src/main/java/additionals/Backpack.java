@@ -48,4 +48,8 @@ public class Backpack {
             return false;
         }
     }
+
+    public void remove(int index) {
+        store.remove(index);
+    }
 }
