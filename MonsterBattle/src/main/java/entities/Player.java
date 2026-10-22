@@ -1,5 +1,7 @@
 package entities;
 
+import additionals.Experience;
+
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
@@ -9,12 +11,12 @@ public final class Player extends Entity {
      * Параметр: ловкость игрового персонажа. Чем выше ловкость, тем выше модификатор ловкости. Не ограничен
      */
     private double dexterity = 0.1;
-    //TODO class Experience
-    private int experience = 0;
+    private final Experience experience;
     private int golds = 10;
 
-    public Player(String name) {
+    public Player(String name, Runnable levelUpAction) {
         super(20, 100, name);
+        experience = new Experience(levelUpAction);
     }
 
     /**
