@@ -2,11 +2,15 @@ package entities;
 
 import additionals.Backpack;
 import additionals.Experience;
+import items.HealingPotion;
+import items.Item;
+
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
 public final class Player extends Entity {
 
+    private final int maxHp;
     /**
      * Параметр: ловкость игрового персонажа. Чем выше ловкость, тем выше модификатор ловкости. Не ограничен
      */
@@ -26,6 +30,7 @@ public final class Player extends Entity {
     public Player(String name, Runnable levelUpAction) {
         super(20, 100, name);
         experience = new Experience(levelUpAction);
+        maxHp = getHp();
     }
 
     /**
@@ -39,10 +44,10 @@ public final class Player extends Entity {
      */
     @Override
     public int attack(Entity entity) {
-        if (!isAlive()) {
+        if (isAlive()) {
             throw new IllegalStateException("entity with flag isAlive, that equals false can not attack");
         }
-        if (!entity.isAlive()) {
+        if (entity.isAlive()) {
             throw new IllegalStateException("entity with flag isAlive, that equals false can not be attacked");
         }
 
@@ -62,6 +67,39 @@ public final class Player extends Entity {
             return entity.takeDamage(damage);
         } else {
             return entity.takeDamage(damage / 3);
+        }
+    }
+
+    /**
+     * Возвращает -3, если индекс выходит за границы массива
+     * <p>
+     * Возвращает -2, если по индексу ничего нет
+     * <p>
+     * Возвращает -1, если по индексу иной предмет (не зелье)
+     * <p>
+     * Возвращает 0, если эффект зелья нельзя применить в данный момент
+     * <p>
+     * Возвращает 1, если зелье применено
+     * */
+    public int drinkPotion(int index) {
+        if (index < 0 || index > backpack.getStore().size()) {
+            return -3;
+        }
+        Item item = backpack.getStore().get(index);
+
+        if (item == null) {
+            return -2;
+        } else if (item instanceof HealingPotion potion) {
+            if (getHp() == maxHp) {
+                return 0;
+            }
+
+            int potentialHp = potion.getHealingSize() + getHp();
+            setHp(Math.min(potentialHp, maxHp));
+
+            return 1;
+        } else {
+            return -1;
         }
     }
 }
