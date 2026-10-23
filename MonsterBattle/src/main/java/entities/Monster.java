@@ -12,23 +12,13 @@ public final class Monster extends Entity {
      * */
     private final int critChance;
 
-    /**
-     * Параметр: уровень монстра. Не может быть меньше 0.
-     * */
-    private final int level;
-
-    public Monster(int power, int hp, String name, int critChance, int level) {
-        super(power, hp, name);
+    public Monster(int power, int hp, String name, int critChance, Runnable levelUpAction) {
+        super(power, hp, name, levelUpAction);
 
         if (critChance < 1 || critChance > 5) {
             throw new IllegalArgumentException("argument critChance can not be less then 1 and more then 5. Current value = " + critChance);
         }
         this.critChance = critChance;
-
-        if (level < 0) {
-            throw new IllegalArgumentException("argument level can not be less then 0. Current value = " + level);
-        }
-        this.level = level;
     }
 
     /**
@@ -60,6 +50,6 @@ public final class Monster extends Entity {
     }
 
     public int getLevel() {
-        return level;
+        return super.getLevel();
     }
 }

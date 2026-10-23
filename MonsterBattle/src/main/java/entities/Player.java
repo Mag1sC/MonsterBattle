@@ -16,11 +16,6 @@ public final class Player extends Entity {
      * Параметр: ловкость игрового персонажа. Чем выше ловкость, тем выше модификатор ловкости. Не ограничен
      */
     private double dexterity = 0.1;
-
-    /**
-     * Обертка над опытом. Корректно накапливает опыт, поддерживая повышение уровней
-     * */
-    private final Experience experience;
     private int golds = 10;
 
     /**
@@ -29,8 +24,7 @@ public final class Player extends Entity {
     private Backpack backpack = Backpack.getDefault();
 
     public Player(String name, Runnable levelUpAction) {
-        super(20, 100, name);
-        experience = new Experience(levelUpAction);
+        super(20, 100, name, levelUpAction);
         maxHp = getHp();
     }
 
@@ -112,5 +106,9 @@ public final class Player extends Entity {
 
     public boolean storeItem(Item item) {
         return backpack.add(item);
+    }
+
+    public int getLevel() {
+        return super.getLevel();
     }
 }

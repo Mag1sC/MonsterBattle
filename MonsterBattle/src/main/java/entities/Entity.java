@@ -1,5 +1,7 @@
 package entities;
 
+import additionals.Experience;
+
 public abstract sealed class Entity permits Player, Monster {
 
     private final String name;
@@ -7,10 +9,16 @@ public abstract sealed class Entity permits Player, Monster {
     private final int power;
     private boolean isAlive = true;
 
-    public Entity(int power, int hp, String name) {
+    /**
+     * Обертка над опытом. Корректно накапливает опыт, поддерживая повышение уровней
+     * */
+    private final Experience experience;
+
+    public Entity(int power, int hp, String name, Runnable levelUpAction) {
         this.power = power;
         this.hp = hp;
         this.name = name;
+        experience = new Experience(levelUpAction);
     }
 
     /**
@@ -43,7 +51,15 @@ public abstract sealed class Entity permits Player, Monster {
         return power;
     }
 
-    protected int getHp() {
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return experience.getLevel();
+    }
+
+    public int getHp() {
         return hp;
     }
 
