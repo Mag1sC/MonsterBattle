@@ -3,9 +3,12 @@ package additionals;
 import items.Item;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
-public class Backpack {
+public class Backpack implements Iterable<Item> {
 
     private final String title;
     private final List<Item> store;
@@ -23,10 +26,6 @@ public class Backpack {
         limit = backpackLimit;
 
         store = new ArrayList<>(limit);
-    }
-
-    public List<Item> getStore() {
-        return new ArrayList<>(store);
     }
 
     public String getTitle() {
@@ -53,5 +52,28 @@ public class Backpack {
 
     public void remove(int index) {
         store.remove(index);
+    }
+
+    public Item get(int index) {
+        return store.get(index);
+    }
+
+    public int size() {
+        return store.size();
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return store.iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Item> action) {
+        store.forEach(action);
+    }
+
+    @Override
+    public Spliterator<Item> spliterator() {
+        return store.spliterator();
     }
 }
