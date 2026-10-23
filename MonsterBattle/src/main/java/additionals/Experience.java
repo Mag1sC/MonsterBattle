@@ -60,4 +60,12 @@ public final class Experience {
     public int getLevel() {
         return level;
     }
+
+    public long getExperienceBucket() {
+        return experienceBucket;
+    }
+
+    public long getExperienceBucketLimit() {
+        return experienceBucketLimit;
+    }
 }

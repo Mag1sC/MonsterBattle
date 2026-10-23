@@ -1,7 +1,6 @@
 package entities;
 
 import additionals.Backpack;
-import additionals.Experience;
 import items.HealingPotion;
 import items.Item;
 
@@ -108,7 +107,15 @@ public final class Player extends Entity {
         return backpack.add(item);
     }
 
-    public int getLevel() {
-        return super.getLevel();
+    public int getPower() {
+        return super.getPower();
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public double getDexterity() {
+        return dexterity;
     }
 }

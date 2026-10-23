@@ -47,7 +47,7 @@ public abstract sealed class Entity permits Player, Monster {
         return isAlive;
     }
 
-    protected int getPower() {
+    public int getPower() {
         return power;
     }
 
@@ -65,5 +65,9 @@ public abstract sealed class Entity permits Player, Monster {
 
     protected void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public long[] getExperienceBucket() {
+        return new long[] {experience.getExperienceBucket(), experience.getExperienceBucketLimit()};
     }
 }
