@@ -5,6 +5,7 @@ import additionals.Experience;
 import items.HealingPotion;
 import items.Item;
 
+import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
@@ -97,9 +98,19 @@ public final class Player extends Entity {
             int potentialHp = potion.getHealingSize() + getHp();
             setHp(Math.min(potentialHp, maxHp));
 
+            backpack.remove(index);
+
             return 1;
         } else {
             return -1;
         }
+    }
+
+    public List<Item> getBackpack() {
+        return backpack.getStore();
+    }
+
+    public boolean storeItem(Item item) {
+        return backpack.add(item);
     }
 }
