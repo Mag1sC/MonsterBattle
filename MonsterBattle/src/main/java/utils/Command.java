@@ -38,6 +38,10 @@ public class Command {
             return complexCommandFor(Commands.BUY_ITEM, txtCommand);
         } else if (txtCommand.contains("sell")) {
             return complexCommandFor(Commands.SELL_ITEM, txtCommand);
+        } else if (txtCommand.equals("next")) {
+            return commandFor(Commands.NEXT);
+        } else if (txtCommand.equals("home")) {
+            return commandFor(Commands.HOME);
         } else {
             return invalidCommand();
         }
@@ -93,6 +97,7 @@ public class Command {
         STAT_ALL, ATTACK,
         OPEN_BACKPACK, DRINK_POTION,
         BUY_ITEM, SELL_ITEM,
+        NEXT, HOME,
         INVALID
     }
 }
