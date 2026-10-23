@@ -22,7 +22,7 @@ public final class Experience {
      * Накапливает опыт в пределах текущего уровня.
      * <p>
      * Если выходит за пределы уровня, повышает его и повторяет операцию.
-     * */
+     */
     public void gainExperience(long exp) {
         if (!canGain(exp)) return;
         totalExperience += exp;
@@ -33,7 +33,7 @@ public final class Experience {
      * Проверяет возможность накопить новый опыт (граничные случаи).
      * <p>
      * Вернет true, если уровень не последний и <code>totalExperience</code> можно увеличить на размер опыта
-     * */
+     */
     private boolean canGain(long exp) {
         return level < Integer.MAX_VALUE && Long.MAX_VALUE - exp > totalExperience;
     }
@@ -51,7 +51,13 @@ public final class Experience {
         experienceBucket = 0;
         level++;
 
-        levelUpAction.run();
+        if (levelUpAction != null) {
+            levelUpAction.run();
+        }
         provideExperience(remainExp);
+    }
+
+    public int getLevel() {
+        return level;
     }
 }
