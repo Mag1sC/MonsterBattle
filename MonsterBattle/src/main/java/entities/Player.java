@@ -3,8 +3,6 @@ package entities;
 import additionals.Backpack;
 import items.HealingPotion;
 import items.Item;
-
-import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
@@ -76,10 +74,10 @@ public final class Player extends Entity {
      * Возвращает 1, если зелье применено
      * */
     public int drinkPotion(int index) {
-        if (index < 0 || index > backpack.getStore().size()) {
+        if (index < 0 || index > backpack.size()) {
             return -3;
         }
-        Item item = backpack.getStore().get(index);
+        Item item = backpack.get(index);
 
         if (item == null) {
             return -2;
@@ -99,8 +97,14 @@ public final class Player extends Entity {
         }
     }
 
-    public List<Item> getBackpack() {
-        return backpack.getStore();
+    public void gainGolds(int amount) {
+        if (Integer.MAX_VALUE - amount < golds) return;
+
+        golds += amount;
+    }
+
+    public Backpack getBackpack() {
+        return backpack;
     }
 
     public boolean storeItem(Item item) {

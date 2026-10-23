@@ -70,4 +70,8 @@ public abstract sealed class Entity permits Player, Monster {
     public long[] getExperienceBucket() {
         return new long[] {experience.getExperienceBucket(), experience.getExperienceBucketLimit()};
     }
+
+    public void gainExperience(long exp) {
+        experience.gainExperience(exp);
+    }
 }
