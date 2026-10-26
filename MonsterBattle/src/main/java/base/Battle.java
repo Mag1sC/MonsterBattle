@@ -4,6 +4,7 @@ import entities.Entity;
 import entities.Player;
 import utils.Command;
 import utils.Printer;
+import utils.RandomValue;
 
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
@@ -17,6 +18,9 @@ public class Battle {
     private final Scanner scanner;
 
     private boolean isPlayerMove = true;
+    private boolean isFirstMove = true;
+    private boolean isEscaped = false;
+    private int escapeTriesLimit = 1;
 
     public Battle(Player player, Entity entity) {
         this.player = player;
@@ -39,12 +43,16 @@ public class Battle {
         World.States state = null;
         printer.onBattleStart();
 
-        while (player.isAlive() && entity.isAlive() && !(Thread.currentThread().isInterrupted())) {
+        while (player.isAlive() && entity.isAlive() && !(Thread.currentThread().isInterrupted()) && !isEscaped) {
             if (isPlayerMove) {
                 providePlayerMove();
             } else {
                 provideEntityMove();
             }
+        }
+
+        if (isEscaped) {
+            return World.States.ESCAPE;
         }
 
         if (Thread.currentThread().isInterrupted()) {
@@ -90,6 +98,9 @@ public class Battle {
                 printer.onAttack(player, entity, damageDealt);
 
                 isPlayerMove = false;
+                if (isFirstMove) {
+                    isFirstMove = false;
+                }
             }
             case Command.Commands.STAT_ALL -> printer.printStat();
             case Command.Commands.STAT_PLAYER -> printer.printPlayerStat();
@@ -107,6 +118,7 @@ public class Battle {
                     case 1 -> printer.onHealingPotionUsed(hpBefore);
                 }
             }
+            case Command.Commands.ESCAPE -> onEscape();
             case Command.Commands.EXIT -> Thread.currentThread().interrupt();
             case Command.Commands.INVALID -> printer.onInvalidCommand();
             default -> printer.onUnsupportedCommand();
@@ -126,5 +138,50 @@ public class Battle {
 
     private int calculateGolds() {
         return entity.getPower() * entity.getLevel() / 8;
+    }
+
+    /**
+     * На первом ходу вероятность побега 66%. В случае успешного побега игрок не получает награды.
+     * <p>
+     * На любом другом ходу вероятность побега 50%. В случае успешного побега игрок получает уменьшенную награду.
+     * */
+    private void onEscape() {
+        if (escapeTriesLimit <= 0) {
+            printer.println("Побег невозможен! Попытки исчерпаны");
+            return;
+        }
+
+        if (isFirstMove) {
+            switch (RandomValue.getRandomValue(0, 2)) {
+                case 0, 1 -> onSuccessEscape(false);
+                case 2 -> onFailedEscape();
+            }
+        } else {
+            switch (RandomValue.getRandomValue(0, 1)) {
+                case 0 -> onSuccessEscape(true);
+                case 1 -> onFailedEscape();
+            }
+        }
+    }
+
+    private void onFailedEscape() {
+        printer.println("Побег не удался!");
+        escapeTriesLimit--;
+    }
+
+    private void onSuccessEscape(boolean withReward) {
+        isEscaped = true;
+        printer.println("Побег удался!");
+        if (withReward) {
+            long exp = calculateExperience() / 3;
+            int golds = calculateGolds() / 3;
+
+            printer.onPlayerEscape(exp, golds);
+            player.gainExperience(exp);
+            player.gainGolds(golds);
+
+            printer.println("Состояние после побега:");
+            printer.printPlayerStat();
+        }
     }
 }

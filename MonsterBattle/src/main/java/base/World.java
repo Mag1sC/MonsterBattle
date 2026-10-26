@@ -8,7 +8,7 @@ public class World {
     private final static GameConfig config = GameConfig.getInstance();
 
     public enum States {
-        HOME, NEXT_BATTLE, PLAYER_LOSE, EXIT
+        HOME, NEXT_BATTLE, PLAYER_LOSE, EXIT, ESCAPE
     }
 
     public static ExecutorService getConfigExecutor() {
