@@ -27,6 +27,10 @@ public class Printer {
         System.out.println(txt);
     }
 
+    public static void staticPrint(String txt) {
+        System.out.print(txt);
+    }
+
     public void onBattleStart() {
         if (entity == null) return;
 
