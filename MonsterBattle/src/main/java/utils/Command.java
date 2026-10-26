@@ -42,6 +42,8 @@ public class Command {
             return commandFor(Commands.NEXT);
         } else if (txtCommand.equals("home")) {
             return commandFor(Commands.HOME);
+        } else if (txtCommand.equals("exit")) {
+            return commandFor(Commands.EXIT);
         } else {
             return invalidCommand();
         }
@@ -98,6 +100,6 @@ public class Command {
         OPEN_BACKPACK, DRINK_POTION,
         BUY_ITEM, SELL_ITEM,
         NEXT, HOME,
-        INVALID
+        EXIT, INVALID
     }
 }

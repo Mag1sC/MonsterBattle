@@ -61,6 +61,7 @@ public class Battle {
                 switch (command.getType()) {
                     case Command.Commands.NEXT -> state = World.States.NEXT_BATTLE;
                     case Command.Commands.HOME -> state = World.States.HOME;
+                    case Command.Commands.EXIT -> state = World.States.EXIT;
                     default -> printer.onInvalidCommand();
                 }
             }
