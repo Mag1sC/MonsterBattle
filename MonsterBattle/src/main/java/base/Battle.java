@@ -58,10 +58,10 @@ public class Battle {
             player.gainGolds(golds);
             printer.onPlayerWin(exp, golds);
 
+            printer.println("Текущее состояние:");
+            printer.printPlayerStat();
             while (state == null) {
-                printer.println("Текущее состояние:");
-                printer.printPlayerStat();
-                printer.println("Продолжим убивать нечисть или вернемся домой? (next/home): ");
+                printer.print("Продолжим убивать нечисть или вернемся домой? (next/home): ");
                 Command command = Command.spot(scanner.nextLine());
 
                 switch (command.getType()) {
@@ -121,10 +121,10 @@ public class Battle {
     }
 
     private long calculateExperience() {
-        return (long) entity.getPower() * entity.getLevel() / 10;
+        return (long) entity.getPower() * entity.getLevel() / 4;
     }
 
     private int calculateGolds() {
-        return entity.getPower() * entity.getLevel() / 20;
+        return entity.getPower() * entity.getLevel() / 8;
     }
 }
