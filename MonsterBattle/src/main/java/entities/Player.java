@@ -20,7 +20,7 @@ public final class Player extends Entity {
     private Backpack backpack = Backpack.getDefault();
 
     public Player(String name, Runnable levelUpAction) {
-        super(20, 100, name, levelUpAction);
+        super(30, 100, name, levelUpAction);
     }
 
     /**
