@@ -59,6 +59,8 @@ public class Battle {
             printer.onPlayerWin(exp, golds);
 
             while (state == null) {
+                printer.println("Текущее состояние:");
+                printer.printPlayerStat();
                 printer.println("Продолжим убивать нечисть или вернемся домой? (next/home): ");
                 Command command = Command.spot(scanner.nextLine());
 
