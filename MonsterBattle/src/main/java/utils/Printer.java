@@ -62,13 +62,13 @@ public class Printer {
 
         println(entity.getName() + ":");
         println("\t" + "Сила: " + entity.getPower());
-        println("\t" + "Здоровье: " + player.getHp() + "/" + player.getMaxHp());
+        println("\t" + "Здоровье: " + entity.getHp() + "/" + entity.getMaxHp());
         println("\t" + "Уровень: " + entity.getLevel());
     }
 
     public void printBackpack() {
         Backpack backpack = player.getBackpack();
-        println(backpack.getTitle());
+        println(backpack.getTitle() + " (" + backpack.size() + " предметов)");
         for (int i = 0; i < backpack.size(); i++) {
             Item item = backpack.get(i);
             println("[" + i + "]" + item.getTitle());
