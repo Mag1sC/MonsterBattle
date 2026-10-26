@@ -28,7 +28,7 @@ public class Command {
                     return invalidCommand();
                 }
             }
-        } else if (txtCommand.equals("\n") || txtCommand.equals("attack")) {
+        } else if (txtCommand.isEmpty() || txtCommand.equals("\r\n") || txtCommand.equals("\n") || txtCommand.equals("attack")) {
             return commandFor(Commands.ATTACK);
         } else if (txtCommand.equals("open backpack") || txtCommand.equals("backpack")) {
             return commandFor(Commands.OPEN_BACKPACK);
