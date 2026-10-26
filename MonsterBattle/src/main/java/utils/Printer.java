@@ -95,7 +95,20 @@ public class Printer {
         if (entity == null) return;
 
         println(player.getName() + " сразил " + entity.getName());
+        onGainingExp(exp);
+        onGainingGolds(golds);
+    }
+
+    public void onPlayerEscape(long exp, int golds) {
+        onGainingExp(exp);
+        onGainingGolds(golds);
+    }
+
+    private void onGainingExp(long exp) {
         println("Получено опыта: " + exp);
+    }
+
+    private void onGainingGolds(int golds) {
         println("Получено золота: " + golds);
     }
 
