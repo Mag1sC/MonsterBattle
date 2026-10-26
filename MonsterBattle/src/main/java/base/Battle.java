@@ -39,12 +39,16 @@ public class Battle {
         World.States state = null;
         printer.onBattleStart();
 
-        while (player.isAlive() && entity.isAlive()) {
+        while (player.isAlive() && entity.isAlive() && !(Thread.currentThread().isInterrupted())) {
             if (isPlayerMove) {
                 providePlayerMove();
             } else {
                 provideEntityMove();
             }
+        }
+
+        if (Thread.currentThread().isInterrupted()) {
+            return World.States.EXIT;
         }
 
         if (player.isAlive()) {
@@ -101,6 +105,7 @@ public class Battle {
                     case 1 -> printer.onHealingPotionUsed(hpBefore);
                 }
             }
+            case Command.Commands.EXIT -> Thread.currentThread().interrupt();
             case Command.Commands.INVALID -> printer.onInvalidCommand();
             default -> printer.onUnsupportedCommand();
         }
