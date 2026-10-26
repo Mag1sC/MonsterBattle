@@ -34,10 +34,10 @@ public final class Player extends Entity {
      */
     @Override
     public int attack(Entity entity) {
-        if (isAlive()) {
+        if (!isAlive()) {
             throw new IllegalStateException("entity with flag isAlive, that equals false can not attack");
         }
-        if (entity.isAlive()) {
+        if (!entity.isAlive()) {
             throw new IllegalStateException("entity with flag isAlive, that equals false can not be attacked");
         }
 
@@ -50,7 +50,7 @@ public final class Player extends Entity {
         };
         boolean isSuccessHit = Random.from(RandomGenerator.getDefault()).nextInt(0, 100) <= successChance;
 
-        double hpFactor = (double) getHp() / (getHp() + 1);
+        double hpFactor = (double) getHp() / (getMaxHp() + 1);
         int damage = (int) (getPower() * hpFactor * (1 + dexterity));
 
         if (isSuccessHit) {
@@ -72,7 +72,7 @@ public final class Player extends Entity {
      * Возвращает 1, если зелье применено
      * */
     public int drinkPotion(int index) {
-        if (index < 0 || index > backpack.size()) {
+        if (index < 0 || index > backpack.size() || backpack.size() == 0) {
             return -3;
         }
         Item item = backpack.get(index);
