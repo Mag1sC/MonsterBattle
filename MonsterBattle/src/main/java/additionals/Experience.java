@@ -18,6 +18,11 @@ public final class Experience {
         this.levelUpAction = levelUpAction;
     }
 
+    public Experience(int level) {
+        this(null);
+        this.level = level;
+    }
+
     /**
      * Накапливает опыт в пределах текущего уровня.
      * <p>
@@ -35,7 +40,7 @@ public final class Experience {
      * Вернет true, если уровень не последний и <code>totalExperience</code> можно увеличить на размер опыта
      */
     private boolean canGain(long exp) {
-        return level < Integer.MAX_VALUE && Long.MAX_VALUE - exp > totalExperience;
+        return levelUpAction != null && level < Integer.MAX_VALUE && Long.MAX_VALUE - exp > totalExperience;
     }
 
     private void provideExperience(long exp) {
