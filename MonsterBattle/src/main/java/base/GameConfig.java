@@ -42,7 +42,7 @@ public class GameConfig {
     public Monster getRandomMonsterInstance() {
         int level = getRandomValue(1, 20);
         int power = getRandomValue(5, 10) + level;
-        int hp = getRandomValue(50, 150) + 5 * level;
+        int hp = getRandomValue(50, 80) + 5 * level;
         int critChance = getRandomValue(1, 5);
 
         String name = "";
