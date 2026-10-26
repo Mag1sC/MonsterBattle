@@ -40,7 +40,7 @@ public final class Experience {
      * Вернет true, если уровень не последний и <code>totalExperience</code> можно увеличить на размер опыта
      */
     private boolean canGain(long exp) {
-        return levelUpAction != null && level < Integer.MAX_VALUE && Long.MAX_VALUE - exp > totalExperience;
+        return level < Integer.MAX_VALUE && Long.MAX_VALUE - exp > totalExperience;
     }
 
     private void provideExperience(long exp) {
