@@ -43,7 +43,7 @@ public abstract sealed class Entity permits Player, Monster {
      * */
     protected int takeDamage(int amount) {
         int damageHilt;
-        if (hp - amount < 0) {
+        if (hp - amount <= 0) {
             damageHilt = hp;
             isAlive = false;
         } else {
