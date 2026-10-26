@@ -6,6 +6,7 @@ public abstract sealed class Entity permits Player, Monster {
 
     private final String name;
     private int hp;
+    private final int maxHp;
     private final int power;
     private boolean isAlive = true;
 
@@ -14,11 +15,26 @@ public abstract sealed class Entity permits Player, Monster {
      * */
     private final Experience experience;
 
+    /**
+     * Конструктор для создания игрового персонажа (Player instance)
+     * */
     public Entity(int power, int hp, String name, Runnable levelUpAction) {
         this.power = power;
         this.hp = hp;
+        maxHp = hp;
         this.name = name;
         experience = new Experience(levelUpAction);
+    }
+
+    /**
+     * Конструктор для создания монстров (Monster instance)
+     * */
+    public Entity(int level, int power, int hp, String name) {
+        this.power = power;
+        this.hp = hp;
+        maxHp = hp;
+        this.name = name;
+        experience = new Experience(level);
     }
 
     /**
@@ -67,11 +83,35 @@ public abstract sealed class Entity permits Player, Monster {
         this.hp = hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
     public long[] getExperienceBucket() {
         return new long[] {experience.getExperienceBucket(), experience.getExperienceBucketLimit()};
     }
 
     public void gainExperience(long exp) {
         experience.gainExperience(exp);
+    }
+
+    public String toString(int critChance) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder
+                .append("Entity(")
+                .append("name=")
+                .append(name)
+                .append(", level=")
+                .append(getLevel())
+                .append(", power=")
+                .append(power)
+                .append(", critChance=")
+                .append(critChance)
+                .append(", hp=")
+                .append(getMaxHp())
+                .append(")");
+
+        return stringBuilder.toString();
     }
 }

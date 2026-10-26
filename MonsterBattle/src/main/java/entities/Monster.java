@@ -12,8 +12,8 @@ public final class Monster extends Entity {
      * */
     private final int critChance;
 
-    public Monster(int power, int hp, String name, int critChance, Runnable levelUpAction) {
-        super(power, hp, name, levelUpAction);
+    public Monster(int level, int power, int hp, String name, int critChance) {
+        super(level, power, hp, name);
 
         if (critChance < 1 || critChance > 5) {
             throw new IllegalArgumentException("argument critChance can not be less then 1 and more then 5. Current value = " + critChance);
@@ -51,5 +51,10 @@ public final class Monster extends Entity {
 
     public int getLevel() {
         return super.getLevel();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString(critChance);
     }
 }

@@ -8,7 +8,6 @@ import java.util.random.RandomGenerator;
 
 public final class Player extends Entity {
 
-    private final int maxHp;
     /**
      * Параметр: ловкость игрового персонажа. Чем выше ловкость, тем выше модификатор ловкости. Не ограничен
      */
@@ -22,7 +21,6 @@ public final class Player extends Entity {
 
     public Player(String name, Runnable levelUpAction) {
         super(20, 100, name, levelUpAction);
-        maxHp = getHp();
     }
 
     /**
@@ -82,12 +80,12 @@ public final class Player extends Entity {
         if (item == null) {
             return -2;
         } else if (item instanceof HealingPotion potion) {
-            if (getHp() == maxHp) {
+            if (getHp() == getMaxHp()) {
                 return 0;
             }
 
             int potentialHp = potion.getHealingSize() + getHp();
-            setHp(Math.min(potentialHp, maxHp));
+            setHp(Math.min(potentialHp, getMaxHp()));
 
             backpack.remove(index);
 
@@ -115,11 +113,30 @@ public final class Player extends Entity {
         return super.getPower();
     }
 
-    public int getMaxHp() {
-        return maxHp;
-    }
-
     public double getDexterity() {
         return dexterity;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder
+                .append("Player(")
+                .append("name=")
+                .append(getName())
+                .append(", level=")
+                .append(getLevel())
+                .append(", power=")
+                .append(getPower())
+                .append(", dexterity=")
+                .append(dexterity)
+                .append(", hp=")
+                .append(getMaxHp())
+                .append(", golds=")
+                .append(golds)
+                .append(")");
+
+        return stringBuilder.toString();
     }
 }
