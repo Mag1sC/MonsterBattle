@@ -101,6 +101,12 @@ public final class Player extends Entity {
         golds += amount;
     }
 
+    public void systemHeal() {
+        if (getHp() < getMaxHp()) {
+            setHp(getMaxHp());
+        }
+    }
+
     public Backpack getBackpack() {
         return backpack;
     }
