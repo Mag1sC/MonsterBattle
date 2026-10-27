@@ -107,11 +107,25 @@ public final class Player extends Entity {
         }
     }
 
+    /**
+     * Метод для покупки предметов. Возвращает: -1, если недостаточно монет, 0, если покупка совершена и сохранена в рюкзак,
+     * 1, если недостаточно места в рюкзаке.
+     * */
+    public int buyItem(Item item) {
+        if (golds < item.getCost()) return -1;
+        if (storeItem(item)) {
+            golds -= item.getCost();
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     public Backpack getBackpack() {
         return backpack;
     }
 
-    public boolean storeItem(Item item) {
+    private boolean storeItem(Item item) {
         return backpack.add(item);
     }
 
@@ -121,6 +135,10 @@ public final class Player extends Entity {
 
     public double getDexterity() {
         return dexterity;
+    }
+
+    public int getGolds() {
+        return golds;
     }
 
     @Override
