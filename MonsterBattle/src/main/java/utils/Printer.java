@@ -1,6 +1,7 @@
 package utils;
 
 import additionals.Backpack;
+import base.World;
 import entities.Entity;
 import entities.Player;
 import items.Item;
@@ -37,8 +38,8 @@ public class Printer {
         println("Начало боя: " + player.getName() + "[" + player.getLevel() + "] vs " + entity.getName() + "[" + entity.getLevel() + "]");
     }
 
-    public void onPlayerMove() {
-        print("Ваш ход (введите команду): ");
+    public static void onEnterCommand() {
+        staticPrint("[" + World.getCurrentLocation() + "]" + " введите команду: ");
     }
 
     public void printStat() {
@@ -55,6 +56,7 @@ public class Printer {
         println("\t" + "Ловкость: " + player.getDexterity());
         println("\t" + "Здоровье: " + player.getHp() + "/" + player.getMaxHp());
         println("\t" + "Уровень: " + player.getLevel() + " [" + player.getExperienceBucket()[0] + "/" + player.getExperienceBucket()[1] + "]");
+        println("\t" + "Монеты: " + player.getGolds());
     }
 
     public void printEntityStat() {
@@ -68,10 +70,10 @@ public class Printer {
 
     public void printBackpack() {
         Backpack backpack = player.getBackpack();
-        println(backpack.getTitle() + " (" + backpack.size() + " предметов)");
+        println(backpack.getTitle() + " (" + backpack.size() + ")");
         for (int i = 0; i < backpack.size(); i++) {
             Item item = backpack.get(i);
-            println("[" + i + "]" + item.getTitle());
+            println("\t[" + i + "] " + item.getTitle());
         }
     }
 
@@ -83,8 +85,8 @@ public class Printer {
         println(attacker.getName() + " атаковал " + attacked.getName() + ". Нанесено урона: " + damageDealt);
     }
 
-    public void onInvalidCommand() {
-        println("Не удалось выполнить команду");
+    public static void onInvalidCommand() {
+        staticPrintln("Не удалось выполнить команду");
     }
 
     public void onUnsupportedCommand() {
