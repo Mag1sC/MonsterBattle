@@ -118,6 +118,16 @@ public class Printer {
         println(player.getName() + " был сражен " + entity.getName());
     }
 
+    public static void onLaunch() {
+        staticPrintln("Управление игровым персонажем происходит через внутриигровые команды.");
+        staticPrintln("Весь список доступных команд и их семантику можно посмотреть по адресу: https://github.com/Mag1sC/MonsterBattle");
+        staticPrintln("В данный момент доступны следующие локации:");
+        staticPrintln("\tДом (HOME) - стартовая и центральная локация.");
+        staticPrintln("\tТорговец (TRADER) - локация торговли. Здесь можно купить или продать предметы.");
+        staticPrintln("\tЛес (FOREST) - локация сражений. Здесь игровой персонаж может убивать монстров, зарабатывая опыт и золото.");
+        staticPrintln("");
+    }
+
     public void println(String txt) {
         System.out.println(txt);
     }
