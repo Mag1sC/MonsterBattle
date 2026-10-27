@@ -11,35 +11,37 @@ import java.util.concurrent.CompletableFuture;
 
 public class Battle {
 
-    private final Player player;
-    private final Entity entity;
+    private Player player;
+    private Entity entity;
 
-    private final Printer printer;
-    private final Scanner scanner;
+    private Printer printer;
+    private final Scanner scanner = World.getConfigScanner();
 
-    private boolean isPlayerMove = true;
-    private boolean isFirstMove = true;
-    private boolean isEscaped = false;
-    private int escapeTriesLimit = 1;
-
-    public Battle(Player player, Entity entity) {
-        this.player = player;
-        this.entity = entity;
-        printer = Printer.provide(player, entity);
-        scanner = World.getConfigScanner();
-    }
+    private boolean isPlayerMove;
+    private boolean isFirstMove;
+    private boolean isEscaped;
+    private int escapeTriesLimit;
 
     /**
      * Запускает бой асинхронно, возвращает код маршрута
-     * */
-    public CompletableFuture<World.States> start() {
+     */
+    public CompletableFuture<World.States> start(Player player, Entity entity) {
+        // Обновляем состояние для переиспользования
+        isFirstMove = true;
+        isEscaped = false;
+        escapeTriesLimit = 1;
+
         return CompletableFuture.supplyAsync(
-                this::startBattle,
+                () -> startBattle(player, entity),
                 World.getConfigExecutor()
         );
     }
 
-    private World.States startBattle() {
+    private World.States startBattle(Player player, Entity entity) {
+        this.player = player;
+        this.entity = entity;
+        printer = Printer.provide(player, entity);
+
         World.States state = null;
         printer.onBattleStart();
 
@@ -113,7 +115,8 @@ public class Battle {
 
                 switch (status) {
                     case -3, -2 -> printer.println("Зелья на такой позиции нет!");
-                    case -1 -> printer.println("На такой позиции лежит не зелье. " + player.getBackpack().get(index).getTitle() + " выпить нельзя!");
+                    case -1 ->
+                            printer.println("На такой позиции лежит не зелье. " + player.getBackpack().get(index).getTitle() + " выпить нельзя!");
                     case 0 -> printer.println("Это зелье сейчас не может быть использовано");
                     case 1 -> printer.onHealingPotionUsed(hpBefore);
                 }
@@ -144,7 +147,7 @@ public class Battle {
      * На первом ходу вероятность побега 66%. В случае успешного побега игрок не получает награды.
      * <p>
      * На любом другом ходу вероятность побега 50%. В случае успешного побега игрок получает уменьшенную награду.
-     * */
+     */
     private void onEscape() {
         if (escapeTriesLimit <= 0) {
             printer.println("Побег невозможен! Попытки исчерпаны");
