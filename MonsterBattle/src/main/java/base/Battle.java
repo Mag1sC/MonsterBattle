@@ -17,10 +17,10 @@ public class Battle {
     private Printer printer;
     private final Scanner scanner = World.getConfigScanner();
 
-    private boolean isPlayerMove;
-    private boolean isFirstMove;
-    private boolean isEscaped;
-    private int escapeTriesLimit;
+    private boolean isPlayerMove = true;
+    private boolean isFirstMove = true;
+    private boolean isEscaped = false;
+    private int escapeTriesLimit = 1;
 
     /**
      * Запускает бой асинхронно, возвращает код маршрута
@@ -90,7 +90,7 @@ public class Battle {
     }
 
     private void providePlayerMove() {
-        printer.onPlayerMove();
+        Printer.onEnterCommand();
         String textCommand = scanner.nextLine();
         Command command = Command.spot(textCommand);
 
