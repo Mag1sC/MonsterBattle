@@ -44,6 +44,8 @@ public class Command {
             return commandFor(Commands.HOME);
         } else if (txtCommand.equals("trader")) {
             return commandFor(Commands.TRADER);
+        } else if (txtCommand.equals("forest")) {
+            return commandFor(Commands.FOREST);
         } else if (txtCommand.equals("escape") || txtCommand.equals("run")) {
             return commandFor(Commands.ESCAPE);
         } else if (txtCommand.equals("exit")) {
@@ -104,7 +106,7 @@ public class Command {
         OPEN_BACKPACK, DRINK_POTION,
         BUY_ITEM, SELL_ITEM,
         NEXT, HOME,
-        TRADER, ESCAPE,
-        EXIT, INVALID
+        TRADER, FOREST,
+        ESCAPE, EXIT, INVALID
     }
 }
