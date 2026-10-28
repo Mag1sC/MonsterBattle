@@ -4,7 +4,6 @@ import entities.Player;
 import items.Item;
 import utils.Command;
 import utils.Printer;
-
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
@@ -17,7 +16,7 @@ public class World {
     private final Battle battlePlace = new Battle();
     private static Locations currentLocation = Locations.HOME;
 
-    private enum Locations {
+    public enum Locations {
         HOME, TRADER, FOREST
     }
 
@@ -33,7 +32,7 @@ public class World {
         return config.getScanner();
     }
 
-    public static void main(String[] args) {
+    public static void main() {
         World world = new World();
         world.start();
     }
