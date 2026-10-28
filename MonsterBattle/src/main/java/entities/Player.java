@@ -3,7 +3,11 @@ package entities;
 import additionals.Backpack;
 import items.HealingPotion;
 import items.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.random.RandomGenerator;
 
 public final class Player extends Entity {
@@ -19,7 +23,7 @@ public final class Player extends Entity {
      * */
     private Backpack backpack = Backpack.getDefault();
 
-    public Player(String name, Runnable levelUpAction) {
+    public Player(String name, Callable<Integer> levelUpAction) {
         super(30, 100, name, levelUpAction);
     }
 
@@ -118,6 +122,26 @@ public final class Player extends Entity {
             return 0;
         } else {
             return 1;
+        }
+    }
+
+    public void gainExperience(long exp) {
+        List<Integer> levelUpsAccumulator = new ArrayList<>();
+        try {
+            super.gainExperience(exp, levelUpsAccumulator);
+        } catch (Exception _) {}
+
+        levelUpsAccumulator.forEach(this::getRaise);
+    }
+
+    private void getRaise(int code) {
+        switch (code) {
+            case 0 -> super.setPower((int) (getPower() * 1.05));
+            case 1 -> super.setMaxHp((int) (getMaxHp() * 1.1));
+            case 2 -> dexterity += 0.05;
+            default -> {
+                return;
+            }
         }
     }
 

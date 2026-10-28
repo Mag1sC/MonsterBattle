@@ -2,12 +2,15 @@ package entities;
 
 import additionals.Experience;
 
+import java.util.List;
+import java.util.concurrent.Callable;
+
 public abstract sealed class Entity permits Player, Monster {
 
     private final String name;
     private int hp;
-    private final int maxHp;
-    private final int power;
+    private int maxHp;
+    private int power;
     private boolean isAlive = true;
 
     /**
@@ -18,7 +21,7 @@ public abstract sealed class Entity permits Player, Monster {
     /**
      * Конструктор для создания игрового персонажа (Player instance)
      * */
-    public Entity(int power, int hp, String name, Runnable levelUpAction) {
+    public Entity(int power, int hp, String name, Callable<Integer> levelUpAction) {
         this.power = power;
         this.hp = hp;
         maxHp = hp;
@@ -67,6 +70,10 @@ public abstract sealed class Entity permits Player, Monster {
         return power;
     }
 
+    protected void setPower(int power) {
+        this.power = power;
+    }
+
     public String getName() {
         return name;
     }
@@ -87,12 +94,16 @@ public abstract sealed class Entity permits Player, Monster {
         return maxHp;
     }
 
+    protected void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
     public long[] getExperienceBucket() {
         return new long[] {experience.getExperienceBucket(), experience.getExperienceBucketLimit()};
     }
 
-    public void gainExperience(long exp) {
-        experience.gainExperience(exp);
+    protected void gainExperience(long exp, List<Integer> levelUps) throws Exception {
+        experience.gainExperience(exp, levelUps);
     }
 
     public String toString(int critChance) {

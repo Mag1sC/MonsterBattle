@@ -39,14 +39,34 @@ public class GameConfig {
         Printer.staticPrint("Введите ваше имя: ");
         String playerName = scanner.nextLine().trim();
 
-        return new Player(playerName, null);
+        return new Player(playerName, () -> {
+            Printer.staticPrintln("Доступно повышение, выберите номер одного из предложенных");
+            Printer.staticPrintln("\t[0] +5% к силе");
+            Printer.staticPrintln("\t[1] +10% к максимальному уровню здоровья");
+            Printer.staticPrintln("\t[2] +0.05 к ловкости");
+
+            while (true) {
+                Printer.staticPrint("Введите номер повышения: ");
+                String input = scanner.nextLine().trim();
+                try {
+                    int inputCode = Integer.parseInt(input);
+                    if (inputCode >= 0 && inputCode <= 2) {
+                        return inputCode;
+                    } else {
+                        Printer.onInvalidCommand();
+                    }
+                } catch (Exception _) {
+                    Printer.onInvalidCommand();
+                }
+            }
+        });
     }
 
     public Monster getRandomMonsterInstance() {
         int level = RandomValue.getRandomValue(1, 20);
-        int power = RandomValue.getRandomValue(5, 10) + level;
-        int hp = RandomValue.getRandomValue(50, 80) + 5 * level;
-        int critChance = RandomValue.getRandomValue(1, 5);
+        int power = RandomValue.getRandomValue(1, 5) + level;
+        int hp = RandomValue.getRandomValue(40, 70) + 5 * level;
+        int critChance = RandomValue.getRandomValue(1, 3);
 
         String name = "";
         switch (RandomValue.getRandomValue(0, 1)) {
@@ -58,14 +78,14 @@ public class GameConfig {
     }
 
     public Map<Integer, Item> getTraderStore() {
-        return getRandomReaderStore();
+        return getRandomTraderStore();
     }
 
     /**
      * Возвращает случайный ассортимент торговца.
      * В данной реализации возвращает один и тот же список товаров
      * */
-    private Map<Integer, Item> getRandomReaderStore() {
+    private Map<Integer, Item> getRandomTraderStore() {
         Map<Integer, Item> items = new HashMap<>();
         items.put(0, new HealingPotion("Зелье лечения I", 15, 10));
         items.put(1, new HealingPotion("Зелье лечения II", 30, 18));

@@ -1,5 +1,8 @@
 package additionals;
 
+import java.util.List;
+import java.util.concurrent.Callable;
+
 public final class Experience {
 
     private int level;
@@ -7,9 +10,9 @@ public final class Experience {
     private long experienceBucket;
     private long experienceBucketLimit;
 
-    private final Runnable levelUpAction;
+    private final Callable<Integer> levelUpAction;
 
-    public Experience(Runnable levelUpAction) {
+    public Experience(Callable<Integer> levelUpAction) {
         level = 0;
         totalExperience = 0;
         experienceBucket = 0;
@@ -27,11 +30,13 @@ public final class Experience {
      * Накапливает опыт в пределах текущего уровня.
      * <p>
      * Если выходит за пределы уровня, повышает его и повторяет операцию.
+     * @param levelUps принимает аккумулятор повышений. Сохраняет коды всех повышений,
+     *                которые были получены во время этой итерации
      */
-    public void gainExperience(long exp) {
+    public void gainExperience(long exp, List<Integer> levelUps) throws Exception {
         if (!canGain(exp)) return;
         totalExperience += exp;
-        provideExperience(exp);
+        provideExperience(exp, levelUps);
     }
 
     /**
@@ -43,23 +48,23 @@ public final class Experience {
         return level < Integer.MAX_VALUE && Long.MAX_VALUE - exp > totalExperience;
     }
 
-    private void provideExperience(long exp) {
+    private void provideExperience(long exp, List<Integer> levelUps) throws Exception {
         if (experienceBucket + exp >= experienceBucketLimit) {
-            nextLevel(Math.abs(experienceBucketLimit - (experienceBucket + exp)));
+            nextLevel(Math.abs(experienceBucketLimit - (experienceBucket + exp)), levelUps);
         } else {
             experienceBucket += exp;
         }
     }
 
-    private void nextLevel(long remainExp) {
+    private void nextLevel(long remainExp, List<Integer> levelUps) throws Exception {
         experienceBucketLimit = (long) (experienceBucketLimit * 1.2);
         experienceBucket = 0;
         level++;
 
         if (levelUpAction != null) {
-            levelUpAction.run();
+            levelUps.add(levelUpAction.call());
         }
-        provideExperience(remainExp);
+        provideExperience(remainExp, levelUps);
     }
 
     public int getLevel() {
