@@ -7,7 +7,7 @@ public final class Monster extends Entity {
 
     /**
      * Параметр: шанс критического урона.
-     * Должен быть от 1 включительно до 5 включительно.
+     * Должен быть от 1 включительно до 3 включительно.
      * В ином случае будет выброшено IllegalArgumentException
      * */
     private final int critChance;
@@ -15,7 +15,7 @@ public final class Monster extends Entity {
     public Monster(int level, int power, int hp, String name, int critChance) {
         super(level, power, hp, name);
 
-        if (critChance < 1 || critChance > 5) {
+        if (critChance < 1 || critChance > 3) {
             throw new IllegalArgumentException("argument critChance can not be less then 1 and more then 5. Current value = " + critChance);
         }
         this.critChance = critChance;
