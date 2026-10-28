@@ -15,7 +15,6 @@ public class World {
     private boolean isFinished = false;
     private final Battle battlePlace = new Battle();
     private static Locations currentLocation = Locations.HOME;
-
     public enum Locations {
         HOME, TRADER, FOREST
     }
